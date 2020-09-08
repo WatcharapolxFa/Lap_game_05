@@ -7,7 +7,7 @@ void gotoxy(int, int);
 void erase_ship(int, int);
 void setcursor(bool);
 void setcolor(int, int);
-void bullet(void);
+void bullet(int ,int);
 
 int main()
 
@@ -24,6 +24,7 @@ int main()
 			if (ch == 'd' ) { direct = 2; }
 			if (ch == 'w') { direct = 3; }
 			if (ch == 's' ) { direct = 4; }
+			if (ch == ' ') { direct = 5; }
 			fflush(stdin);
 		}
 		if (direct > 0)
@@ -32,10 +33,10 @@ int main()
 			if (direct == 2 && x < 113) { erase_ship(x, y); draw_ship(++x, y); }
 			//if (direct == 3 && y > 0) { erase_ship(x, y); draw_ship(x, --y); }
 			if (direct == 4 && y < 30) { erase_ship(x, y); draw_ship(x, y); }
+			if (direct == 5 && y < 30) { bullet(x, y); draw_ship(x, --y); }
 		}
 		Sleep(100);
 		setcolor(2, 0);
-		bullet();
 	} while (ch != 'x');
 	return 0;
 }
@@ -73,8 +74,8 @@ void setcolor(int fg, int bg)
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
 }
-void bullet()
+void bullet(int x, int y)
 {
-	int x = 38, y = 22;
+	gotoxy(x, y);
 	printf("|");
 }
