@@ -3,11 +3,13 @@
 #include<windows.h>
 
 void draw_ship(int, int);
-void gotoxy(int, int);
+void gotoxy1(int, int);
 void erase_ship(int, int);
 void setcursor(bool);
 void setcolor(int, int);
 void bullet(int ,int);
+void gotoxy2(int, int);
+void erase_bullet(int, int);
 
 int main()
 
@@ -15,6 +17,7 @@ int main()
 	char ch = ' ';
 	int direct = 0;
 	int x = 38, y = 20;
+	int a = 41, b = 19;
 	draw_ship(x, y);
 
 	do {
@@ -27,13 +30,19 @@ int main()
 			if (ch == ' ') { direct = 5; }
 			fflush(stdin);
 		}
-		if (direct > 0)
+		if (direct > 0 && direct < 5)
 		{
-			if (direct==1 && x > 0) { erase_ship(x, y); draw_ship(--x, y); }
+			a = x + 3; b = y-1;
+			if (direct == 1 && x > 0) { erase_ship(x, y); draw_ship(--x, y); }
 			if (direct == 2 && x < 113) { erase_ship(x, y); draw_ship(++x, y); }
 			//if (direct == 3 && y > 0) { erase_ship(x, y); draw_ship(x, --y); }
 			if (direct == 4 && y < 30) { erase_ship(x, y); draw_ship(x, y); }
-			if (direct == 5 && y < 30) { bullet(x, y); draw_ship(x, --y); }
+		}
+		else if (direct == 5 && b > 0)
+		{		
+			erase_bullet(a, b); 
+			bullet(a, --b);
+			Sleep(100);
 		}
 		Sleep(100);
 		setcolor(2, 0);
@@ -45,18 +54,46 @@ void draw_ship(int x, int y)
 {
 	setcursor(0);
 	setcolor(2, 4);
-	gotoxy(x, y);
+	gotoxy1(x, y);
 	printf(" <-0-> ");
 }
 
 void erase_ship(int x, int y)
 {
-	gotoxy(x, y);
+	gotoxy1(x, y);
 	printf("       ");
 	
 }
-
-void gotoxy(int x, int y)
+void erase_bullet(int x, int y)
+{ 
+	
+		
+		gotoxy2(x,y+6);
+		for (int i = 0; i < 5; i++) {
+		printf(" ");
+		gotoxy2(x,y+4);
+	}
+		
+}
+void bullet(int x, int y)
+{
+	
+	
+	gotoxy2(x, y);
+	for (int i = 0; i < 5; i++) {
+		
+		printf("|\n");
+		gotoxy2(x, y+1);
+		
+		
+	}
+}
+void gotoxy2(int a, int b)
+{
+	COORD d = { a, b };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), d);
+}
+void gotoxy1(int x, int y)
 {
 	COORD c = { x, y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
@@ -73,9 +110,4 @@ void setcolor(int fg, int bg)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
-}
-void bullet(int x, int y)
-{
-	gotoxy(x, y);
-	printf("|");
 }
