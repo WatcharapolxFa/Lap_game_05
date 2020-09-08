@@ -7,6 +7,7 @@ void gotoxy(int, int);
 void erase_ship(int, int);
 void setcursor(bool);
 void setcolor(int, int);
+void bullet(void);
 
 int main()
 
@@ -34,6 +35,7 @@ int main()
 		}
 		Sleep(100);
 		setcolor(2, 0);
+		bullet();
 	} while (ch != 'x');
 	return 0;
 }
@@ -70,4 +72,9 @@ void setcolor(int fg, int bg)
 {
 	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
+}
+void bullet()
+{
+	int x = 38, y = 22;
+	printf("|");
 }
