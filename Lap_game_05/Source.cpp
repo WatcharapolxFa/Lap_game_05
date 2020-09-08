@@ -12,19 +12,27 @@ int main()
 
 {
 	char ch = ' ';
+	int direct = 0;
 	int x = 38, y = 20;
 	draw_ship(x, y);
-	
+
 	do {
 		if (_kbhit()) {
 			ch = _getch();
-			if (ch == 'a' && x > 0) { erase_ship(x, y); draw_ship(--x, y); }
-			if (ch == 'd' && x < 113) { erase_ship(x, y); draw_ship(++x, y); }
-			if (ch == 'w' && y > 0) { erase_ship(x, y); draw_ship(x, --y); }
-			if (ch == 's' && y < 30) { erase_ship(x, y); draw_ship(x, ++y); }
+			if (ch == 'a') { direct = 1; }
+			if (ch == 'd' ) { direct = 2; }
+			if (ch == 'w') { direct = 3; }
+			if (ch == 's' ) { direct = 4; }
 			fflush(stdin);
 		}
-		Sleep(500);
+		if (direct > 0)
+		{
+			if (direct==1 && x > 0) { erase_ship(x, y); draw_ship(--x, y); }
+			if (direct == 2 && x < 113) { erase_ship(x, y); draw_ship(++x, y); }
+			//if (direct == 3 && y > 0) { erase_ship(x, y); draw_ship(x, --y); }
+			if (direct == 4 && y < 30) { erase_ship(x, y); draw_ship(x, y); }
+		}
+		Sleep(100);
 		setcolor(2, 0);
 	} while (ch != 'x');
 	return 0;
