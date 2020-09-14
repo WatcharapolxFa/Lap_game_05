@@ -46,9 +46,10 @@ int main()
 			}
 			fflush(stdin);
 		}
+		
 		if (direct > 0 && direct < 5)
 		{
-			a = x ; b = y - 1;
+			a = x + 3 ; b = y - 1;
 			if (direct == 1 && x > 0)
 			{ erase_ship(x, y); draw_ship(--x, y); }
 			if (direct == 2 && x < 113) 
@@ -58,11 +59,10 @@ int main()
 			if (direct == 4 && y < 30) 
 			{ erase_ship(x, y); draw_ship(x, y); }
 		}
-		else if (direct == 5 && b > 0)
+		else if (direct == 5 )
 		{
-			bullet(a, --b);
-			erase_bullet(a,b);
-			Sleep(500);
+			erase_bullet(a,b);bullet(a, --b);
+			Sleep(100);
 		}
 		Sleep(100);
 		setcolor(2, 0);
@@ -84,30 +84,37 @@ void erase_ship(int x, int y)
 	printf("       ");
 
 }
-void erase_bullet(int x, int y)
+void erase_bullet(int a, int b)
 {
-	gotoxy2(x,y);
+	gotoxy2(a,b);
 	for (int i = 0; i < 5; i++) {
 		
-		printf("0");
+		printf(" ");
 
-		gotoxy2(x, y+6);
+		gotoxy2(a, b+6);
 	}
 
 }
-void bullet(int x, int y)
+void bullet(int a, int b)
 {
-	gotoxy2(x, y);
-	for (int i = 0; i < 5; i++) {
-		printf("|\n");
-		gotoxy2(x, y -1);
-
-
+	gotoxy2(a , b);
+	
+	for (int i = 0; i < 5;i++) 
+	{
+		int nub = 0;
+			printf("|\n");
+			gotoxy2(a, b + 1);
+			nub += i;
+			if (nub == 5)
+			{
+				printf("%d", nub);
+				break;
+			}
 	}
 }
 void gotoxy2(int a, int b)
 {
-	COORD d = { a, b };
+	COORD d = { a,b };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), d);
 }
 void gotoxy1(int x, int y)
