@@ -1,4 +1,4 @@
-#include<stdio.h>
+﻿#include<stdio.h>
 #include<windows.h>
 #include<conio.h>
 #include<time.h>
@@ -9,7 +9,7 @@ void draw_ship(int, int);
 void erase_ship(int, int);
 void setcolor(int, int);
 void setcursor(bool);
-void bullet(int, int);
+void  Draw_bullet(int, int);
 void bullet_ship(int, int);
 
 
@@ -17,20 +17,22 @@ int main()
 {
 	setcursor(0);
 	int nub[2];
-	int bullet[5];
-	int position_x[5];
-	int position_y[5];
+	int bullet[5]; // กระสุน
+	int position_x[5]; //ตำแหน่งกระสุน แกน x 5 นัด
+	int position_y[5]; //ตำแหน่งกระสุน แกน y 5 นัด
+
+
 	char ch = ' ';
 	int x = 38, y = 20;
 	draw_ship(x, y);
 	for (int i = 0; i < 5; i++)
 	{
-		position_x[i] = x;
-		position_y[i] = y;
+		bullet[i] = 0 ;
 	}
+
 	do {
-		if (kbhit()) {
-			ch = getch();
+		if (_kbhit()) {
+			ch = _getch();
 
 			if (ch == 'w')
 			{
@@ -78,7 +80,17 @@ int main()
 		}
 		if (nub[0] == 5)
 		{
-
+			for (int i = 0 ; i <5 ; i++)
+			{
+				
+				if (bullet[i] == 0)
+				{
+					bullet[i] = 1;
+					position_x[i] = x+2;
+					position_y[i] = y-1;
+					Draw_bullet(x, y);
+				}
+			}
 		}
 
 		Sleep(100);
@@ -127,12 +139,11 @@ void setcursor(bool visible)
 	SetConsoleCursorInfo(console, &lpCursor);
 }
 // Draw_bullet
-void bullet(int x, int y)
+void Draw_bullet(int x, int y)
 {
-
-
 	setcolor(2, 0);
-	gotoxy(x, y); printf(" < ^ > ");
+	gotoxy(x, y); 
+	printf(" < ^ > ");
 
 }
 // bullet_ship
