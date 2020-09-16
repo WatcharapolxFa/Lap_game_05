@@ -80,17 +80,19 @@ int main()
 		}
 		if (nub[0] == 5)
 		{
+			//โชว์กระสุน
 			for (int i = 0 ; i <5 ; i++)
 			{
 				
 				if (bullet[i] == 0)
 				{
 					bullet[i] = 1;
-					position_x[i] = x+2;
-					position_y[i] = y-1;
-					Draw_bullet(x, y);
+					position_x[i] = x;
+					position_y[i] = y-2;
+					Draw_bullet(position_x[i], position_y[i]);
 				}
 			}
+			
 		}
 
 		Sleep(100);
