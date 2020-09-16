@@ -56,7 +56,19 @@ int main()
 
 			if (ch == ' ')
 			{
-				nub[0] = 5;
+			for (int i = 0 ; i <5 ; i++)
+			{
+				//โชว์กระสุน
+				if (bullet[i] == 0)
+				{
+					bullet[i] = 1;
+					position_x[i] = x;
+					position_y[i] = y-2;
+					Draw_bullet(position_x[i], position_y[i]);
+					break ;
+				}
+				
+			}	
 			}
 			fflush(stdin);
 
@@ -78,24 +90,8 @@ int main()
 		{
 			erase_ship(x, y); draw_ship(++x, y);
 		}
-		if (nub[0] == 5)
-		{
-			//โชว์กระสุน
-			for (int i = 0 ; i <5 ; i++)
-			{
-				
-				if (bullet[i] == 0)
-				{
-					bullet[i] = 1;
-					position_x[i] = x;
-					position_y[i] = y-2;
-					Draw_bullet(position_x[i], position_y[i]);
-					break ;
-				}
-				
-			}
 			
-		}
+			
 		for (int i = 0; i < 5; i++) {
 				if (bullet[i] == 1)
 				{
@@ -140,6 +136,7 @@ void draw_ship(int x, int y)
 // erase_ship
 void erase_ship(int x, int y)
 {
+	setcolor(0, 0);
 	gotoxy(x, y); printf("       ");
 }
 //set color
@@ -160,7 +157,7 @@ void setcursor(bool visible)
 // Draw_bullet
 void Draw_bullet(int x, int y)
 {
-	setcolor(2, 0);
+	setcolor(6, 0);
 	gotoxy(x, y); 
 	printf(" < ^ > ");
 
@@ -168,5 +165,6 @@ void Draw_bullet(int x, int y)
 // bullet_ship
 void bullet_ship(int x, int y)
 {
-	gotoxy(x, y); printf("       ");
+	setcolor(0, 0);
+	gotoxy(x, y); printf("        ");
 }
