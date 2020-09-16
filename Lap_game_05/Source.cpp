@@ -1,127 +1,123 @@
 #include<stdio.h>
-#include<conio.h>
 #include<windows.h>
+#include<conio.h>
+#include<time.h>
 
+
+void gotoxy(int, int);
 void draw_ship(int, int);
-void gotoxy1(int, int);
 void erase_ship(int, int);
-void setcursor(bool);
 void setcolor(int, int);
+void setcursor(bool);
 void bullet(int, int);
-void gotoxy2(int, int);
-void erase_bullet(int, int);
+void bullet_ship(int, int);
 
 
 int main()
-
 {
+	setcursor(0);
+	int nub[2];
+	int bullet[5];
+	int position_x[5];
+	int position_y[5];
 	char ch = ' ';
-	int direct = 0;
 	int x = 38, y = 20;
-	int a = 41, b = 19;
 	draw_ship(x, y);
-
+	for (int i = 0; i < 5; i++)
+	{
+		position_x[i] = x;
+		position_y[i] = y;
+	}
 	do {
-		if (_kbhit()) {
-			ch = _getch();
+		if (kbhit()) {
+			ch = getch();
+
+			if (ch == 'w')
+			{
+				nub[0] = 1;
+			}
+
 			if (ch == 'a')
 			{
-				direct = 1;
+				nub[0] = 2;
 			}
-			if (ch == 'd') 
-			{ 
-				direct = 2; 
-			}
-			if (ch == 'w') 
-			{ 
-				direct = 3; 
-			}
-			if (ch == 's') 
+
+			if (ch == 's')
 			{
-				direct = 4; 
+				nub[0] = 3;
 			}
-			if (ch == ' ') 
-			{ 
-				direct = 5;
+
+			if (ch == 'd')
+			{
+				nub[0] = 4;
+			}
+
+			if (ch == ' ')
+			{
+				nub[0] = 5;
 			}
 			fflush(stdin);
+
+
 		}
-		
-		if (direct > 0 && direct < 5)
+		if (nub[0] == 1 && x > 0)
 		{
-			a = x + 3 ; b = y - 1;
-			if (direct == 1 && x > 0)
-			{ erase_ship(x, y); draw_ship(--x, y); }
-			if (direct == 2 && x < 113) 
-			{ erase_ship(x, y); draw_ship(++x, y); }
-			if (direct == 3 && y > 0) 
-			{ erase_ship(x, y); draw_ship(x, --y); }
-			if (direct == 4 && y < 30) 
-			{ erase_ship(x, y); draw_ship(x, y); }
+			erase_ship(x, y); draw_ship(x, y);
 		}
-		else if (direct == 5 )
+		if (nub[0] == 2 && x < 113)
 		{
-			erase_bullet(a,b);bullet(a, --b);
-			Sleep(100);
+			erase_ship(x, y); draw_ship(--x, y);
 		}
+		if (nub[0] == 3 && y > 0)
+		{
+			erase_ship(x, y); draw_ship(x, y);
+		}
+		if (nub[0] == 4 && y < 30)
+		{
+			erase_ship(x, y); draw_ship(++x, y);
+		}
+		if (nub[0] == 5)
+		{
+
+		}
+
 		Sleep(100);
 		setcolor(2, 0);
 	} while (ch != 'x');
+
 	return 0;
 }
 
+
+
+// Ship position
+void gotoxy(int x, int y)
+{
+	COORD c = { x , y };
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
+
+// Draw_ship
 void draw_ship(int x, int y)
 {
 	setcursor(0);
 	setcolor(2, 4);
-	gotoxy1(x, y);
-	printf(" <-0-> ");
+	gotoxy(x, y); printf(" <-0-> ");
 }
 
+// erase_ship
 void erase_ship(int x, int y)
 {
-	gotoxy1(x, y);
-	printf("       ");
-
+	gotoxy(x, y); printf("       ");
 }
-void erase_bullet(int a, int b)
+//set color
+void setcolor(int fg, int bg)
 {
-	gotoxy2(a,b);
-	for (int i = 0; i < 5; i++) {
-		
-		printf(" ");
-
-		gotoxy2(a, b+6);
-	}
-
+	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
 }
-void bullet(int a, int b)
-{
-	gotoxy2(a , b);
-	
-	for (int i = 0; i < 5;i++) 
-	{
-		int nub = 0;
-			printf("|\n");
-			gotoxy2(a, b + 1);
-			nub += i;
-			if (nub == 5)
-			{
-				printf("%d", nub);
-				break;
-			}
-	}
-}
-void gotoxy2(int a, int b)
-{
-	COORD d = { a,b };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), d);
-}
-void gotoxy1(int x, int y)
-{
-	COORD c = { x, y };
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), c);
-}
+// setcursor
 void setcursor(bool visible)
 {
 	HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -130,8 +126,17 @@ void setcursor(bool visible)
 	lpCursor.dwSize = 20;
 	SetConsoleCursorInfo(console, &lpCursor);
 }
-void setcolor(int fg, int bg)
+// Draw_bullet
+void bullet(int x, int y)
 {
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	SetConsoleTextAttribute(hConsole, bg * 16 + fg);
+
+
+	setcolor(2, 0);
+	gotoxy(x, y); printf(" < ^ > ");
+
+}
+// bullet_ship
+void bullet_ship(int x, int y)
+{
+	gotoxy(x, y); printf("       ");
 }
