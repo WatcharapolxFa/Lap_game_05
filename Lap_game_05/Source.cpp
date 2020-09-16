@@ -12,22 +12,23 @@ void setcursor(bool);
 void  Draw_bullet(int, int);
 void bullet_ship(int, int);
 
-
-int main()
+struct ans
 {
-	setcursor(0);
 	int nub[2];
 	int bullet[5]; // กระสุน
 	int position_x[5]; //ตำแหน่งกระสุน แกน x 5 นัด
 	int position_y[5]; //ตำแหน่งกระสุน แกน y 5 นัด
+}gogo;
 
-
+int main()
+{
+	setcursor(0);
 	char ch = ' ';
 	int x = 38, y = 20;
 	draw_ship(x, y);
 	for (int i = 0; i < 5; i++)
 	{
-		bullet[i] = 0 ;
+		gogo.bullet[i] = 0 ;
 	}
 
 	do {
@@ -36,22 +37,22 @@ int main()
 
 			if (ch == 'w')
 			{
-				nub[0] = 1;
+				gogo.nub[0] = 1;
 			}
 
 			if (ch == 'a')
 			{
-				nub[0] = 2;
+				gogo.nub[0] = 2;
 			}
 
 			if (ch == 's')
 			{
-				nub[0] = 3;
+				gogo.nub[0] = 3;
 			}
 
 			if (ch == 'd')
 			{
-				nub[0] = 4;
+				gogo.nub[0] = 4;
 			}
 
 			if (ch == ' ')
@@ -59,12 +60,12 @@ int main()
 			for (int i = 0 ; i <5 ; i++)
 			{
 				//โชว์กระสุน
-				if (bullet[i] == 0)
+				if (gogo.bullet[i] == 0)
 				{
-					bullet[i] = 1;
-					position_x[i] = x;
-					position_y[i] = y-2;
-					Draw_bullet(position_x[i], position_y[i]);
+					gogo.bullet[i] = 1;
+					gogo.position_x[i] = x;
+					gogo.position_y[i] = y-2;
+					Draw_bullet(gogo.position_x[i], gogo.position_y[i]);
 					break ;
 				}
 				
@@ -74,36 +75,36 @@ int main()
 
 
 		}
-		if (nub[0] == 1 && x > 0)
+		if (gogo.nub[0] == 1 && x > 0)
 		{
 			erase_ship(x, y); draw_ship(x, y);
 		}
-		if (nub[0] == 2 && x < 113)
+		if (gogo.nub[0] == 2 && x < 113)
 		{
 			erase_ship(x, y); draw_ship(--x, y);
 		}
-		if (nub[0] == 3 && y > 0)
+		if (gogo.nub[0] == 3 && y > 0)
 		{
 			erase_ship(x, y); draw_ship(x, y);
 		}
-		if (nub[0] == 4 && y < 30)
+		if (gogo.nub[0] == 4 && y < 30)
 		{
 			erase_ship(x, y); draw_ship(++x, y);
 		}
 			
 			
 		for (int i = 0; i < 5; i++) {
-				if (bullet[i] == 1)
+				if (gogo.bullet[i] == 1)
 				{
 
-					bullet_ship(position_x[i], position_y[i]);
-					position_y[i] = position_y[i] - 1;
-					if (position_y[i] > 0) {
-						Draw_bullet(position_x[i], position_y[i]);
+					bullet_ship(gogo.position_x[i], gogo.position_y[i]);
+					gogo.position_y[i] = gogo.position_y[i] - 1;
+					if (gogo.position_y[i] > 0) {
+						Draw_bullet(gogo.position_x[i], gogo.position_y[i]);
 					}
 					else
 					{
-						bullet[i] = 0;
+						gogo.bullet[i] = 0;
 					}
 				}
 			}
