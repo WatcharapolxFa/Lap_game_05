@@ -13,7 +13,8 @@ void  Draw_bullet(int, int);
 void bullet_ship(int, int);
 
 struct ans
-{
+{   char ch = ' ';
+	int x = 38, y = 20;
 	int nub[2];
 	int bullet[5]; // กระสุน
 	int position_x[5]; //ตำแหน่งกระสุน แกน x 5 นัด
@@ -21,97 +22,96 @@ struct ans
 }gogo;
 
 int main()
-{
+{	
 	setcursor(0);
-	char ch = ' ';
-	int x = 38, y = 20;
-	draw_ship(x, y);
+	
+	draw_ship(gogo.x, gogo.y);
 	for (int i = 0; i < 5; i++)
 	{
-		gogo.bullet[i] = 0 ;
+		gogo.bullet[i] = 0;
 	}
 
 	do {
 		if (_kbhit()) {
-			ch = _getch();
+			gogo.ch = _getch();
 
-			if (ch == 'w')
+			if (gogo.ch == 'w')
 			{
 				gogo.nub[0] = 1;
 			}
 
-			if (ch == 'a')
+			if (gogo.ch == 'a')
 			{
 				gogo.nub[0] = 2;
 			}
 
-			if (ch == 's')
+			if (gogo.ch == 's')
 			{
 				gogo.nub[0] = 3;
 			}
 
-			if (ch == 'd')
+			if (gogo.ch == 'd')
 			{
 				gogo.nub[0] = 4;
 			}
 
-			if (ch == ' ')
+			if (gogo.ch == ' ')
 			{
-			for (int i = 0 ; i <5 ; i++)
-			{
-				//โชว์กระสุน
-				if (gogo.bullet[i] == 0)
+				for (int i = 0; i < 5; i++)
 				{
-					gogo.bullet[i] = 1;
-					gogo.position_x[i] = x;
-					gogo.position_y[i] = y-2;
-					Draw_bullet(gogo.position_x[i], gogo.position_y[i]);
-					break ;
+					//โชว์กระสุน
+					if (gogo.bullet[i] == 0)
+					{
+						gogo.bullet[i] = 1;
+						gogo.position_x[i] = gogo.x;
+						gogo.position_y[i] = gogo.y - 2;
+						Draw_bullet(gogo.position_x[i], gogo.position_y[i]);
+						break;
+					}
+
 				}
-				
-			}	
 			}
 			fflush(stdin);
 
 
 		}
-		if (gogo.nub[0] == 1 && x > 0)
+		if (gogo.nub[0] == 1 && gogo.x > 0)
 		{
-			erase_ship(x, y); draw_ship(x, y);
+			erase_ship(gogo.x, gogo.y); draw_ship(gogo.x, gogo.y);
 		}
-		if (gogo.nub[0] == 2 && x < 113)
+		if (gogo.nub[0] == 2 && gogo.y <50 && gogo.x > 0)
 		{
-			erase_ship(x, y); draw_ship(--x, y);
+			erase_ship(gogo.x, gogo.y); draw_ship(--gogo.x, gogo.y);
 		}
-		if (gogo.nub[0] == 3 && y > 0)
+		if (gogo.nub[0] == 3 && gogo.y > 0)
 		{
-			erase_ship(x, y); draw_ship(x, y);
+			erase_ship(gogo.x, gogo.y); draw_ship(gogo.x, gogo.y);
 		}
-		if (gogo.nub[0] == 4 && y < 30)
+		if (gogo.nub[0] == 4 && gogo.x < 113)
 		{
-			erase_ship(x, y); draw_ship(++x, y);
+			erase_ship(gogo.x, gogo.y); draw_ship(++gogo.x, gogo.y);
 		}
-			
-			
-		for (int i = 0; i < 5; i++) {
-				if (gogo.bullet[i] == 1)
-				{
 
-					bullet_ship(gogo.position_x[i], gogo.position_y[i]);
-					gogo.position_y[i] = gogo.position_y[i] - 1;
-					if (gogo.position_y[i] > 0) {
-						Draw_bullet(gogo.position_x[i], gogo.position_y[i]);
-					}
-					else
-					{
-						gogo.bullet[i] = 0;
-					}
+
+		for (int i = 0; i < 5; i++) {
+			if (gogo.bullet[i] == 1)
+			{
+
+				bullet_ship(gogo.position_x[i], gogo.position_y[i]);
+				gogo.position_y[i] = gogo.position_y[i] - 1;
+				if (gogo.position_y[i] > 0) {
+					Draw_bullet(gogo.position_x[i], gogo.position_y[i]);
+				}
+				else
+				{
+					gogo.bullet[i] = 0;
 				}
 			}
+		}
 
 		Sleep(100);
 		setcolor(2, 0);
-	} while (ch != 'x');
+	} while (gogo.ch != 'x');
 
 	return 0;
 }
@@ -159,7 +159,7 @@ void setcursor(bool visible)
 void Draw_bullet(int x, int y)
 {
 	setcolor(6, 0);
-	gotoxy(x, y); 
+	gotoxy(x, y);
 	printf(" < ^ > ");
 
 }
