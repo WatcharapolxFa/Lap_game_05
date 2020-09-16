@@ -90,10 +90,27 @@ int main()
 					position_x[i] = x;
 					position_y[i] = y-2;
 					Draw_bullet(position_x[i], position_y[i]);
+					break ;
 				}
+				
 			}
 			
 		}
+		for (int i = 0; i < 5; i++) {
+				if (bullet[i] == 1)
+				{
+
+					bullet_ship(position_x[i], position_y[i]);
+					position_y[i] = position_y[i] - 1;
+					if (position_y[i] > 0) {
+						Draw_bullet(position_x[i], position_y[i]);
+					}
+					else
+					{
+						bullet[i] = 0;
+					}
+				}
+			}
 
 		Sleep(100);
 		setcolor(2, 0);
